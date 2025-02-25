@@ -5,14 +5,15 @@ let currentKeysFlat = [];
 
 // Objects
 let tunings = {
-    standard: ["-1E", "-1A", "D", "G", "B", "E"],
-    dropD: ["-1D", "-1A", "D", "G", "B", "E"],
-    doubleDropD: ["-1D", "-1A", "D", "G", "B", "D"],
-    openG: ["-1D", "G", "D", "G", "B", "D"],
-    openD: ["-1D", "-1A", "D", "F#", "A", "D"],
-    openE: ["-1E", "-1B", "E", "G#", "B", "E"],
-    openA: ["-1E", "-1A", "E", "A", "C#", "E"],
-    DADGAD: ["-1D", "-1A", "D", "G", "A", "D"]
+    "Standard": ["-2E", "-2A", "-1D", "-1G", "-1B", "E"],
+    "Half step down": ["-2D#", "-2G#", "-1C#", "-1F#", "-1A#", "D#"],
+    "drop D": ["-2D", "-2A", "-1D", "-1G", "-1B", "E"],
+    "Double drop D": ["-2D", "-2A", "-1D", "-1G", "-1B", "D"],
+    "open G": ["-2D", "-2G", "-1D", "-1G", "-1B", "D"],
+    "open D": ["-2D", "-2A", "-1D", "-1F#", "-1A", "D"],
+    "open E": ["-2E", "-2B", "-1E", "-1G#", "-1B", "E"],
+    "open A": ["-2E", "-2A", "-1E", "-1A", "-1C#", "E"],
+    "DADGAD": ["-2D", "-2A", "-1D", "-1G", "-1A", "D"]
 };
 
 // Integers
@@ -34,10 +35,6 @@ currentKeysFlat = currentKeys.flat();
 
 // Returns the keys of the octave at index (-3 to 3)
 function getKeys(octaveIndex){
-    if(octaveIndex < -3 || octaveIndex > 3){
-        console.error("Inval id index");
-        return;
-    }
     return currentKeys[octaveIndex + middleOctaveIndex];
 }
 
@@ -50,7 +47,17 @@ function getKey(octaveIndex, keyIndex){
 // Gets the starting key(of the string) and the amount of keys to move(fret) and returns the key that it moved to
 function tab2piano(startingKey, moveKeys){
     let startingKeyIndex = currentKeysFlat.indexOf(startingKey.toUpperCase());
+    if(startingKeyIndex == -1){
+        console.error("Error: Invalid key value");
+        return null;
+    }
     let endKeyIndex = startingKeyIndex + Number(moveKeys);
+
+    let result = currentKeysFlat[endKeyIndex];
+    if(result == undefined){
+        console.error("Error: Invalid fret value");
+        return null;
+    }
 
     return currentKeysFlat[endKeyIndex];
 }

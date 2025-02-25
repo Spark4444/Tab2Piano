@@ -1,0 +1,57 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    box-sizing: border-box;
+    font-family: Helvetica;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: #f0f4f8;
+    color: #333;
+    font-family: Helvetica;
+}
+
+.explanation {
+    background-color: #ffffff;
+    border: 1px solid #d1d9e6;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.selectInstrument, .selectTuning {
+    background-color: #ffffff;
+    border: 1px solid #d1d9e6;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.inputs, .piano {
+    background-color: #ffffff;
+    border: 1px solid #d1d9e6;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.strings {
+    display: flex;
+    flex-direction: column;
+    width: 3%;
+}
+
+.frets {
+    display: flex;
+    flex-direction: column;
+    width: 3%;
+}

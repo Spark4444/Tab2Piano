@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab2Piano</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="" href="">
+</head>
+<body>
+    <div class="explanation">
+        This tool allows you to convert guitar tab notes to piano keys. You input the string name and the fret number, and it visualizes the corresponding piano key.
+        The string names follow the format of octave + note. Octaves before the middle octave are labeled with a negative number, e.g., -1B (the first key before the middle octave), while octaves after the middle octave have positive numbers, e.g., 1C (the first key after the middle octave).
+        The middle octave does not have a number before it, e.g., C, C#.
+        Black keys are labeled with a # and the letter before the black key, e.g., 1C# (the first black key after the middle octave).
+    </div>
+
+    <select class="selectInstrument"></select>
+    <select class="selectTuning"></select>
+
+    <div class="inputs">
+        <div class="strings"></div>
+        <div class="frets"></div>
+    </div>
+
+    <div class="piano">
+
+    </div>
+
+    <script src="js/functions.js"></script>
+    <script src="js/pianoConvert.js"></script>
+    <script src="js/visualizer.js"></script>
+</body>
+</html>

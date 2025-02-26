@@ -24,6 +24,6 @@ To use the tool, open the index.html file located in the Tab2Piano directory dir
 * Convert guitar tab notes to piano keys visually.
 * Supports different guitar tunings.
 
-## Current State of the Project
+## Current State of this Project
 
 This project is finished.

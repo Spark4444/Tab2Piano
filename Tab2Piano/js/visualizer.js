@@ -1,5 +1,4 @@
 // Dom elements
-let selectInstrument = document.querySelector(".selectInstrument");
 let selectTuning = document.querySelector(".selectTuning");
 let stringsIndex = document.querySelector(".stringsIndex");
 let strings = document.querySelector(".strings");
@@ -9,26 +8,38 @@ let stringIndexes;
 let stringInputs;
 let fretInputs;
 
-// Arrays
-let instruments = ["g6", "b4"];
-
-// Function to generate options for the instrument select
-function generateInstrumentOptions() {
-    instruments.forEach(element => {
-        let instrument = "";
-        switch(element[0]){
-            case "g":
-                instrument = "Guitar";
-                break;
-            case "b":
-                instrument = "Bass";
-                break;
-        }
-        selectInstrument.innerHTML += `<option value="${element}">${instrument} with ${element[1]} strings</option>`;
+// Function to save current values to local storage
+function saveValuesToLocalStorage() {
+    let stringValues = [];
+    let fretValues = [];
+    stringInputs.forEach((element, index) => {
+        stringValues.push(element.value);
+        fretValues.push(fretInputs[index].value);
     });
+    saveToLocalStorage("stringValues", JSON.stringify(stringValues));
+    saveToLocalStorage("fretValues", JSON.stringify(fretValues));
+    saveToLocalStorage("tuning", selectTuning.value);
 }
 
-generateInstrumentOptions();
+// Function to load values from local storage
+function loadValuesFromLocalStorage() {
+    let stringValues = JSON.parse(getFromLocalStorage("stringValues"));
+    let fretValues = JSON.parse(getFromLocalStorage("fretValues"));
+    selectTuning.value = getFromLocalStorage("tuning");
+    if (stringValues && fretValues) {
+        stringInputs.forEach((element, index) => {
+            element.value = stringValues[index];
+            fretInputs[index].value = fretValues[index];
+        });
+        visualizePiano();
+    }
+}
+
+// Attach saveValuesToLocalStorage to beforeunload event
+window.addEventListener("beforeunload", saveValuesToLocalStorage);
+
+// Load values from local storage on page load
+window.addEventListener("load", loadValuesFromLocalStorage);
 
 // Function to generate options for the tuning select
 function generateTuningSelect() {
@@ -37,6 +48,7 @@ function generateTuningSelect() {
     });
 }
 
+// Initial call
 generateTuningSelect();
 
 // Function to generate the inputs for the strings and frets
@@ -46,35 +58,21 @@ function generateInputs(amount) {
     frets.innerHTML = "";
     for(let i = 0;i < amount;i++){
         stringsIndex.innerHTML += `<div class="stringIndex">${i + 1}</div>`;
-        strings.innerHTML += `<input type="text" class="stringInput" placeholder="${getRandomKey()}" maxlength="4">`;
-        frets.innerHTML += `<input type="text" class="fretInput" placeholder="${getRandomNumber(0,22)}" maxlength="3">`;
+        strings.innerHTML += `<input type="text" class="stringInput" placeholder="C" maxlength="4">`;
+        frets.innerHTML += `<input type="text" class="fretInput" placeholder="0" maxlength="3">`;
     }
 }
 
 // Initial call
-generateInputs(Number(selectInstrument.value[1]));
-
-// If user changes the select input it regenrates the inputs
-selectInstrument.addEventListener("input", function () {
-    generateInputs(Number(selectInstrument.value[1]));
-    changeInputs(selectTuning.value);
-    setInputListeners();
-});
+generateInputs(6);
 
 // Function to set tuning for an input from a tuning
 function changeInputs(tuning){
     resetPiano();
     let newTunings = tunings[tuning].slice().reverse();
-    if(selectInstrument.value[0] == "b"){;
-        document.querySelectorAll(".stringInput").forEach((element, index) => {
-            element.value = newTunings[index + 2];
-        });
-    }
-    else if(selectInstrument.value[0] == "g"){
-        document.querySelectorAll(".stringInput").forEach((element, index) => {
-            element.value = newTunings[index];
-        });
-    }
+    document.querySelectorAll(".stringInput").forEach((element, index) => {
+        element.value = newTunings[index];
+    });
 }
 
 // Initial call
@@ -83,6 +81,9 @@ changeInputs("Standard");
 // If the user changes the value tuning input it will change the inputs with selected tuning
 selectTuning.addEventListener("input", function () {
     changeInputs(selectTuning.value);
+    setTimeout(() => {
+        visualizePiano();
+    }, 10);
 });
 
 // Function to generate the html of the piano
@@ -101,10 +102,10 @@ function generatePiano(keysArray) {
         }
         else if(previousWasBlackKey){
             previousWasBlackKey = false;
-            newPianoHtml += `<div class="key whiteKey toTheLeftOfBlackKey" id="${element}"></div>`;
+            newPianoHtml += `<div class="key whiteKey toTheLeftOfBlackKey" id="${element}">${element}</div>`;
         }
         else{
-            newPianoHtml += `<div class="key whiteKey" id="${element}"></div>`;
+            newPianoHtml += `<div class="key whiteKey" id="${element}">${element}</div>`;
         }
 
         if(element.includes("B")){
@@ -187,4 +188,12 @@ function setInputListeners() {
     }, 10);
 }
 
+// Initial call
 setInputListeners();
+
+function resetFrets() {
+    fretInputs.forEach(element => {
+        element.value = "";
+    });
+    visualizePiano();
+}

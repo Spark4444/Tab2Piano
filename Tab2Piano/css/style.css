@@ -9,6 +9,10 @@
     margin: 0 0 0 -5%;
     width: 9%;
     z-index: 1;
+    display: flex;
+    color: white;
+    align-items: flex-end;
+    justify-content: center;
 }
 
 .explanation {
@@ -20,6 +24,7 @@
     margin: 0 0 2% 0;
     text-align: center;
     width: 100%;
+    user-select: text;
 }
 
 .frets {
@@ -84,9 +89,10 @@
     justify-content: center;
     position: absolute;
     width: 17%;
+    flex-direction: column;
 }
 
-.selectInstrument, .selectTuning {
+.selectTuning {
     border-radius: 0.7vw;
     border: 0.1vw solid black;
     font-size: 1.2vw;
@@ -95,13 +101,14 @@
     text-align: center;
     top: -11vw;
     width: 100%;
+    cursor: pointer;
 }
 
 .stringIndex {
     font-size: 1vw;
     height: 1.3vw;
     text-align: center;
-    transition: 1s;
+    transition: 0.5s;
     width: 100%;
 }
 
@@ -129,6 +136,14 @@
     border: black 0.1vw solid;
     height: 100%;
     width: 15%;
+    display: flex;
+    align-items: flex-end;
+    font-size: 0.9vw;
+    justify-content: center;
+}
+
+.key{
+    transition: 0.5s;
 }
 
 body {
@@ -143,6 +158,7 @@ body {
     width: 100%;
     display: flex;
     flex: 1;
+    user-select: none;
 }
 
 html {
@@ -155,7 +171,7 @@ input[type="text"] {
     outline: none;
     padding: 0;
     text-align: center;
-    transition: 1s;
+    transition: 0.5s;
     background: none;
 }
 
@@ -171,4 +187,16 @@ input[type="text"] {
 
 .mainWrap {
     margin: auto;
+}
+
+.reset {
+    position: relative;
+    top: -10.5vw;
+    font-size: 1vw;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.reset:hover {
+    color: #007BFF;
 }

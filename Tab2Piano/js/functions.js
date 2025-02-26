@@ -8,8 +8,3 @@ const getFromLocalStorage = key => localStorage.getItem(key);
 function getRandomNumber(start, end) {
     return Math.floor(Math.random() * (end - start + 1)) + start;
 }
-
-// Function to get a random key from the keys array
-function getRandomKey(){
-    return currentKeysFlat[getRandomNumber(0, currentKeysFlat.length - 1)];
-}

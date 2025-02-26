@@ -128,9 +128,9 @@ function resetPiano() {
 
 // Function to highlight the strings that are invalid
 function highlightString(index){
-    stringIndexes[index].style.color = "red";
-    stringInputs[index].style.color = "red";
-    fretInputs[index].style.color = "red";
+    stringIndexes[index].style.color = "var(--error-color)";
+    stringInputs[index].style.color = "var(--error-color)";
+    fretInputs[index].style.color = "var(--error-color)";
 }
 
 // Function to unhighlight the strings
@@ -145,6 +145,7 @@ function unhighlightStrings(){
 // Function to visualize the piano depending on the value of inputs
 function visualizePiano() {
     resetPiano();
+    let resultIndexes = [];
     let keys = [];
     updateSelectors();
     unhighlightStrings();
@@ -156,15 +157,18 @@ function visualizePiano() {
             
         }
         else if (result != null) {
+            resultIndexes.push(index);
             keys.push(result);
         }
         else{
             highlightString(index);
         }
     });
-    keys.forEach(element => {
+    keys.forEach((element, index) => {
         let key = document.querySelector(`#${CSS.escape(element)}`);
-        key.style.backgroundColor = "var(--key-higlight-color)";
+        if(key){
+            key.style.backgroundColor = `var(--key-higlight-color${resultIndexes[index]})`;
+        }
     });
 }
 
@@ -173,6 +177,12 @@ visualizePiano();
 
 function updateSelectors() {
     stringIndexes = document.querySelectorAll(".stringIndex");
+    setTimeout(() => {
+        stringIndexes.forEach(element => {
+            element.style.color = `var(--key-higlight-color${element.innerHTML - 1})`;
+            element.style.filter = `invert(1)`;
+        });
+    }, 10);
     stringInputs = document.querySelectorAll(".stringInput");
     fretInputs = document.querySelectorAll(".fretInput");
 }
@@ -184,6 +194,23 @@ function setInputListeners() {
     stringInputs.forEach((element, index) => {
         element.addEventListener("input", visualizePiano);
         fretInputs[index].addEventListener("input", visualizePiano);
+
+        // Add keydown event listener for Enter key to change to next input if it exists
+        element.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                if (index + 1 < stringInputs.length) {
+                    stringInputs[index + 1].focus();
+                }
+            }
+        });
+
+        fretInputs[index].addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                if (index + 1 < fretInputs.length) {
+                    fretInputs[index + 1].focus();
+                }
+            }
+        });
     });
     }, 10);
 }
@@ -197,3 +224,10 @@ function resetFrets() {
     });
     visualizePiano();
 }
+
+// Keybinds
+document.addEventListener("keydown", function (event) {
+    if (event.ctrlKey && event.code === "KeyR") {
+        resetFrets();
+    }
+});

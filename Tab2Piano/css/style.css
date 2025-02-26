@@ -134,8 +134,11 @@
 }
 
 .stringIndex {
+    align-items: center;
+    display: flex;
     font-size: 1vw;
     height: 1.3vw;
+    justify-content: center;
     text-align: center;
     transition: 0.5s;
     width: 100%;
@@ -177,8 +180,14 @@
 }
 
 :root {
+    --error-color: red;
     --hover-color: blue;
-    --key-higlight-color: yellow;
+    --key-higlight-color0: yellow;
+    --key-higlight-color1: green;
+    --key-higlight-color2: blue;
+    --key-higlight-color3: red;
+    --key-higlight-color4: violet;
+    --key-higlight-color5: orange;
 }
 
 body {
@@ -242,8 +251,8 @@ input[type="text"] {
     }
     
     :root {
+        --error-color: #00ffff;
         --hover-color: blue;
-        --key-higlight-color: blue;
     }
     
     body {

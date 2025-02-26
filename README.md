@@ -19,10 +19,10 @@ git clone https://github.com/yourusername/Tab2Piano
 
 To use the tool, open the index.html file located in the Tab2Piano directory directly in your browser.
 
-### Features
-
-* Convert guitar tab notes to piano keys visually.
-* Supports different guitar tunings.
+## Keybinds
+* `Ctrl + R` to reset the frets
+* `Arrow Down` to move down to the input below
+* `Arrow Up` to move to up to the input on top
 
 ## Current State of this Project
 

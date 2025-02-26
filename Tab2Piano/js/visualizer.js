@@ -175,16 +175,18 @@ function visualizePiano() {
 // Initial call
 visualizePiano();
 
+// Function to update the selectors and set the colors of the inputs
 function updateSelectors() {
     stringIndexes = document.querySelectorAll(".stringIndex");
-    setTimeout(() => {
-        stringIndexes.forEach(element => {
-            element.style.color = `var(--key-higlight-color${element.innerHTML - 1})`;
-            element.style.filter = `invert(1)`;
-        });
-    }, 10);
     stringInputs = document.querySelectorAll(".stringInput");
     fretInputs = document.querySelectorAll(".fretInput");
+    setTimeout(() => {
+        stringIndexes.forEach((element, index) => {
+            element.style.color = `var(--key-higlight-color${index})`;
+            stringInputs[index].style.color = `var(--key-higlight-color${index})`;
+            fretInputs[index].style.color = `var(--key-higlight-color${index})`;
+        });
+    }, 10);
 }
 
 // Function to set input listeners
@@ -195,19 +197,29 @@ function setInputListeners() {
         element.addEventListener("input", visualizePiano);
         fretInputs[index].addEventListener("input", visualizePiano);
 
-        // Add keydown event listener for Enter key to change to next input if it exists
+        // Add keydown event listener for arrow keys to change to the next/previous input if it exists
         element.addEventListener("keydown", function (event) {
-            if (event.key === "Enter") {
+            if (event.code === "ArrowDown") {
                 if (index + 1 < stringInputs.length) {
                     stringInputs[index + 1].focus();
+                }
+            }
+            else if(event.code === "ArrowUp"){
+                if(index - 1 >= 0){
+                    stringInputs[index - 1].focus();
                 }
             }
         });
 
         fretInputs[index].addEventListener("keydown", function (event) {
-            if (event.key === "Enter") {
+            if (event.code === "ArrowDown") {
                 if (index + 1 < fretInputs.length) {
                     fretInputs[index + 1].focus();
+                }
+            }
+            else if(event.code === "ArrowUp"){
+                if(index - 1 >= 0){
+                    fretInputs[index - 1].focus();
                 }
             }
         });
@@ -227,6 +239,7 @@ function resetFrets() {
 
 // Keybinds
 document.addEventListener("keydown", function (event) {
+    console.log(event.code);
     if (event.ctrlKey && event.code === "KeyR") {
         resetFrets();
     }

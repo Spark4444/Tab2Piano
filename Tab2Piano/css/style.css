@@ -168,3 +168,7 @@ input[type="text"] {
     border: 0.1vw black solid;
     border-right: 0.3vw solid black;
 }
+
+.mainWrap {
+    margin: auto;
+}

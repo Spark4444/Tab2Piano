@@ -3,16 +3,16 @@
 }
 
 .blackKey {
+    align-items: flex-end;
     background: black;
     border: black 0.1vw solid;
+    color: white;
+    display: flex;
     height: 60%;
+    justify-content: center;
     margin: 0 0 0 -5%;
     width: 9%;
     z-index: 1;
-    display: flex;
-    color: white;
-    align-items: flex-end;
-    justify-content: center;
 }
 
 .explanation {
@@ -23,8 +23,13 @@
     justify-content: center;
     margin: 0 0 2% 0;
     text-align: center;
-    width: 100%;
     user-select: text;
+    width: 96%;
+}
+
+.fretInput {
+    border-right: 0.3vw solid black;
+    border: 0.1vw black solid;
 }
 
 .frets {
@@ -43,10 +48,10 @@
 
 .guitarWrap {
     align-items: center;
+    background-image: url("../img/overlay.png") !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-size: 100% !important;
-    background: url("../img/overlay.png");
     display: flex;
     flex-direction: column;
     height: 47vw;
@@ -63,6 +68,17 @@
     margin: 0 0 2.18% 0;
     padding: 0 0 0 5.6%;
     width: 100%;
+}
+
+.key {
+    transition: 0.5s;
+}
+
+.mainWrap {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
 }
 
 .octave {
@@ -82,26 +98,39 @@
     width: 100%;
 }
 
+.reset {
+    cursor: pointer;
+    font-size: 1vw;
+    position: relative;
+    top: -10.5vw;
+    transition: 0.5s;
+}
+
+.reset:hover {
+    color: var(--hover-color);
+}
+
 .select {
     align-items: center;
     display: flex;
+    flex-direction: column;
     height: 6vw;
     justify-content: center;
     position: absolute;
     width: 17%;
-    flex-direction: column;
 }
 
 .selectTuning {
     border-radius: 0.7vw;
     border: 0.1vw solid black;
+    cursor: pointer;
     font-size: 1.2vw;
     height: 3vw;
+    outline: none;
     position: relative;
     text-align: center;
     top: -11vw;
     width: 100%;
-    cursor: pointer;
 }
 
 .stringIndex {
@@ -110,6 +139,11 @@
     text-align: center;
     transition: 0.5s;
     width: 100%;
+}
+
+.stringInput {
+    border-left: 0.3vw solid black;
+    border: 0.1vw black solid;
 }
 
 .strings {
@@ -132,33 +166,34 @@
 }
 
 .whiteKey {
+    align-items: flex-end;
     background: white;
     border: black 0.1vw solid;
-    height: 100%;
-    width: 15%;
     display: flex;
-    align-items: flex-end;
     font-size: 0.9vw;
+    height: 100%;
     justify-content: center;
+    width: 15%;
 }
 
-.key{
-    transition: 0.5s;
+:root {
+    --hover-color: blue;
+    --key-higlight-color: yellow;
 }
 
 body {
     box-sizing: border-box;
     color: #333;
+    display: flex;
+    flex: 1;
     font-family: Helvetica;
     font-size: 1.4vw;
     height: 100%;
     margin: 0;
     overflow-x: hidden;
     padding: 0;
-    width: 100%;
-    display: flex;
-    flex: 1;
     user-select: none;
+    width: 100%;
 }
 
 html {
@@ -167,36 +202,52 @@ html {
 }
 
 input[type="text"] {
+    background: none;
     font-size: 1vw;
     outline: none;
     padding: 0;
     text-align: center;
     transition: 0.5s;
-    background: none;
 }
 
-.stringInput {
-    border: 0.1vw black solid;
-    border-left: 0.3vw solid black;
-}
-
-.fretInput {
-    border: 0.1vw black solid;
-    border-right: 0.3vw solid black;
-}
-
-.mainWrap {
-    margin: auto;
-}
-
-.reset {
-    position: relative;
-    top: -10.5vw;
-    font-size: 1vw;
-    cursor: pointer;
-    transition: 0.5s;
-}
-
-.reset:hover {
-    color: #007BFF;
+@media (prefers-color-scheme: dark) {
+    .blackKey {
+        background: white;
+        border: 0.1vw solid white;
+        color: black;
+    }
+    
+    .explanation {
+        background: black;
+        color: white;
+    }
+    
+    .guitarWrap {
+        background: white;
+        color: black;
+        filter: invert(1);
+    }
+    
+    .selectTuning {
+        background: black;
+        border: 0.1vw solid white;
+        color: white;
+        filter: invert(1);
+    }
+    
+    .whiteKey {
+        background: black;
+        border: 0.1vw solid white;
+        color: white;
+    }
+    
+    :root {
+        --hover-color: blue;
+        --key-higlight-color: blue;
+    }
+    
+    body {
+        background: black;
+        color: white;
+    }    
 }

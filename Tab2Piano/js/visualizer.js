@@ -164,7 +164,7 @@ function visualizePiano() {
     });
     keys.forEach(element => {
         let key = document.querySelector(`#${CSS.escape(element)}`);
-        key.style.backgroundColor = "yellow";
+        key.style.backgroundColor = "var(--key-higlight-color)";
     });
 }
 

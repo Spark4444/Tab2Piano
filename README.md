@@ -9,8 +9,7 @@ Tab2Piano is a tool that allows you to convert guitar tab notes to piano keys. Y
 
 ### &nbsp;&nbsp;&nbsp;Or
 
-Use the git clone command to copy it onto your computer:
-bash
+Use the git clone command to copy it onto your computer
 ```bash
 git clone https://github.com/yourusername/Tab2Piano
 ```

@@ -24,6 +24,8 @@ To use the tool, open the index.html file located in the Tab2Piano directory dir
 * `Arrow Up` to move to up to the input on top
 * `Arrow Right` to move to the input on the right
 * `Arrow Left` to move to the input on the left
+* `+` or `=` to increase the value of the input by one
+* `-` to decrease the value of the input by one
 
 ## Current State of this Project
 

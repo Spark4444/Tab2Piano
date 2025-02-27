@@ -207,6 +207,7 @@ function setInputListeners() {
 
         // Add keydown event listener for arrow keys to change to the next/previous input if it exists
         element.addEventListener("keydown", function (event) {
+            console.log(event.code);
             let cursorPosition = element.selectionStart;
             if (event.code === "ArrowDown") {
                 event.preventDefault();
@@ -220,6 +221,20 @@ function setInputListeners() {
                 if(index - 1 >= 0){
                     stringInputs[index - 1].focus();
                     stringInputs[index - 1].setSelectionRange(cursorPosition, cursorPosition);
+                }
+            }
+            else if(event.code === "Minus" || event.code === "NumpadSubtract"){
+                event.preventDefault();
+                if(tab2piano(element.value, -1, index + 1) != null){
+                    element.value = tab2piano(element.value, -1, index + 1);
+                    visualizePiano();
+                }
+            }
+            else if(event.code === "Equal" || event.shiftKey && event.code === "Equal" || event.code === "NumpadAdd"){
+                event.preventDefault();
+                if(tab2piano(element.value, 1, index + 1) != null){
+                    element.value = tab2piano(element.value, 1, index + 1);
+                    visualizePiano();
                 }
             }
             else if(event.code === "ArrowRight" && cursorPosition == stringInputs[index].value.length){
@@ -245,6 +260,16 @@ function setInputListeners() {
                     fretInputs[index - 1].focus();
                     fretInputs[index - 1].setSelectionRange(cursorPosition, cursorPosition);
                 }
+            }
+            else if(event.code === "Minus" || event.code === "NumpadSubtract"){
+                event.preventDefault();
+                fretInputs[index].value = Number(fretInputs[index].value) - 1;
+                visualizePiano();
+            }
+            else if(event.code === "Equal" || event.shiftKey && event.code === "Equal" || event.code === "NumpadAdd"){
+                event.preventDefault();
+                fretInputs[index].value = Number(fretInputs[index].value) + 1;
+                visualizePiano();
             }
             else if(event.code === "ArrowLeft" && cursorPosition == 0){
                 setTimeout(() => {

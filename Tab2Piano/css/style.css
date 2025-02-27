@@ -265,7 +265,6 @@ input[type="text"] {
     }
     
     :root {
-        --error-color: #00ffff;
         --hover-color: blue;
         --key-higlight-color0: cyan;
         --key-higlight-color1: lime;

@@ -45,17 +45,19 @@ function getKey(octaveIndex, keyIndex){
 }
 
 // Gets the starting key(of the string) and the amount of keys to move(fret) and returns the key that it moved to
-function tab2piano(startingKey, moveKeys){
+function tab2piano(startingKey, moveKeys, index){
+    let date = new Date();
+    date = date.toString().slice(0, date.toString().indexOf("GMT") - 1).toLowerCase();
     let startingKeyIndex = currentKeysFlat.indexOf(startingKey.toUpperCase());
     if(startingKeyIndex == -1){
-        console.error("Error: Invalid key value");
+        console.error(`Error:\n Invalid key value or non-existent key on input ${index} with value ${startingKey}\n On ${date}`);
         return null;
     }
     let endKeyIndex = startingKeyIndex + Number(moveKeys);
 
     let result = currentKeysFlat[endKeyIndex];
     if(result == undefined){
-        console.error("Error: Invalid fret value");
+        console.error(`Error:\n Invalid fret value or non-existent key on input ${index} with value ${moveKeys}\n On ${date}`);
         return null;
     }
 

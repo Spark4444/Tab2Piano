@@ -22,7 +22,11 @@ To use the tool, open the index.html file located in the Tab2Piano directory dir
 * `Ctrl + R` to reset the frets
 * `Arrow Down` to move down to the input below
 * `Arrow Up` to move to up to the input on top
+* `Arrow Right` to move to the input on the right
+* `Arrow Left` to move to the input on the left
 
 ## Current State of this Project
 
 This project is finished.
+
+To add the missing keybinds to the README.md file, you can update the `Keybinds` section as follows:

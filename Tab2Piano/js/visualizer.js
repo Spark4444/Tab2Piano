@@ -25,7 +25,7 @@ function saveValuesToLocalStorage() {
 function loadValuesFromLocalStorage() {
     let stringValues = JSON.parse(getFromLocalStorage("stringValues"));
     let fretValues = JSON.parse(getFromLocalStorage("fretValues"));
-    selectTuning.value = getFromLocalStorage("tuning");
+    selectTuning.value = getFromLocalStorage("tuning") || "Standard";
     if (stringValues && fretValues) {
         stringInputs.forEach((element, index) => {
             element.value = stringValues[index];
@@ -136,9 +136,9 @@ function highlightString(index){
 // Function to unhighlight the strings
 function unhighlightStrings(){
     stringInputs.forEach((element, index) => {
-        element.style.color = "";
-        stringIndexes[index].style.color = "";
-        fretInputs[index].style.color = "";
+        element.style.color = `var(--key-higlight-color${index})`;
+        stringIndexes[index].style.color = `var(--key-higlight-color${index})`;
+        fretInputs[index].style.color = `var(--key-higlight-color${index})`;
     });
 }
 
@@ -152,8 +152,8 @@ function visualizePiano() {
     stringInputs.forEach((element, index) => {
         let stringValue = stringInputs[index].value.trim();
         let fretValue = fretInputs[index].value.trim();
-        let result = tab2piano(stringValue, fretValue);
-        if(stringValue == "" || fretValue == ""){
+        let result = tab2piano(stringValue, fretValue, index + 1);
+        if(stringValue == "" || fretValue == "" && result != null){
             
         }
         else if (result != null) {
@@ -180,7 +180,12 @@ function updateSelectors() {
     stringIndexes = document.querySelectorAll(".stringIndex");
     stringInputs = document.querySelectorAll(".stringInput");
     fretInputs = document.querySelectorAll(".fretInput");
+}
+
+// Function to set the colors of the inputs and the indexes
+function setColors(){
     setTimeout(() => {
+        updateSelectors();
         stringIndexes.forEach((element, index) => {
             element.style.color = `var(--key-higlight-color${index})`;
             stringInputs[index].style.color = `var(--key-higlight-color${index})`;
@@ -188,6 +193,9 @@ function updateSelectors() {
         });
     }, 10);
 }
+
+// Initial call
+setColors();
 
 // Function to set input listeners
 function setInputListeners() {
@@ -199,28 +207,50 @@ function setInputListeners() {
 
         // Add keydown event listener for arrow keys to change to the next/previous input if it exists
         element.addEventListener("keydown", function (event) {
+            let cursorPosition = element.selectionStart;
             if (event.code === "ArrowDown") {
+                event.preventDefault();
                 if (index + 1 < stringInputs.length) {
                     stringInputs[index + 1].focus();
+                    stringInputs[index + 1].setSelectionRange(cursorPosition, cursorPosition);
                 }
             }
             else if(event.code === "ArrowUp"){
+                event.preventDefault();
                 if(index - 1 >= 0){
                     stringInputs[index - 1].focus();
+                    stringInputs[index - 1].setSelectionRange(cursorPosition, cursorPosition);
                 }
             }
+            else if(event.code === "ArrowRight" && cursorPosition == stringInputs[index].value.length){
+                setTimeout(() => {
+                    fretInputs[index].focus();
+                    fretInputs[index].setSelectionRange(0, 0);
+                }, 10);
+            }
         });
-
+        
         fretInputs[index].addEventListener("keydown", function (event) {
+            let cursorPosition = fretInputs[index].selectionStart;
             if (event.code === "ArrowDown") {
+                event.preventDefault();
                 if (index + 1 < fretInputs.length) {
                     fretInputs[index + 1].focus();
+                    fretInputs[index + 1].setSelectionRange(cursorPosition, cursorPosition);
                 }
             }
             else if(event.code === "ArrowUp"){
+                event.preventDefault();
                 if(index - 1 >= 0){
                     fretInputs[index - 1].focus();
+                    fretInputs[index - 1].setSelectionRange(cursorPosition, cursorPosition);
                 }
+            }
+            else if(event.code === "ArrowLeft" && cursorPosition == 0){
+                setTimeout(() => {
+                    stringInputs[index].focus();
+                    stringInputs[index].setSelectionRange(stringInputs[index].value.length, stringInputs[index].value.length);
+                }, 10);
             }
         });
     });
@@ -239,7 +269,6 @@ function resetFrets() {
 
 // Keybinds
 document.addEventListener("keydown", function (event) {
-    console.log(event.code);
     if (event.ctrlKey && event.code === "KeyR") {
         resetFrets();
     }

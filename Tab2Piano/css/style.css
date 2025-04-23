@@ -219,6 +219,23 @@ input[type="text"] {
     transition: 0.5s;
 }
 
+.tuneUp, .tuneDown {
+    width: 1.25%;
+    cursor: pointer;
+    position: relative;
+    left: -40.8%;
+}
+
+.tuneDown {
+    rotate: 90deg;
+    top: -6%;
+}
+
+.tuneUp {
+    rotate: 270deg;
+    bottom: -1.5%;
+}
+
 @media (prefers-color-scheme: dark) {
     .blackKey {
         background: white;

@@ -75,6 +75,18 @@ function changeInputs(tuning){
     });
 }
 
+function adjustTuning(upORDown) {
+    document.querySelectorAll(".stringInput").forEach((element, index) => {
+        if(upORDown){
+            element.value = tab2piano(element.value, 1, index + 1);
+        }
+        else{
+            element.value = tab2piano(element.value, -1, index + 1);
+        }
+    });
+    visualizePiano();
+}
+
 // Initial call
 changeInputs("Standard");
 
@@ -295,6 +307,17 @@ function resetFrets() {
 // Keybinds
 document.addEventListener("keydown", function (event) {
     if (event.ctrlKey && event.code === "KeyR") {
+        event.preventDefault();
         resetFrets();
+    }
+
+    else if(event.ctrlKey && event.code === "KeyU"){
+        event.preventDefault();
+        adjustTuning(true);
+    }
+
+    else if(event.ctrlKey && event.code === "KeyJ"){
+        event.preventDefault();
+        adjustTuning(false);
     }
 });

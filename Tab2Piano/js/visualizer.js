@@ -4,10 +4,12 @@ let stringsIndex = document.querySelector(".stringsIndex");
 let strings = document.querySelector(".strings");
 let frets = document.querySelector(".frets");
 let piano = document.querySelector(".piano");
-let selectSelected = false;
 let stringIndexes;
 let stringInputs;
 let fretInputs;
+
+// Boleans
+let selectSelected = false;
 
 // Function to save current values to local storage
 function saveValuesToLocalStorage() {
@@ -140,7 +142,7 @@ function generatePiano(keysArray) {
 }
 
 // Initial call
-generatePiano(currentKeysFlat);
+generatePiano(currentKeysFlatS);
 
 // Function to reset the piano
 function resetPiano() {
@@ -232,14 +234,14 @@ function setInputListeners() {
         // Add keydown event listener for arrow keys to change to the next/previous input if it exists
         element.addEventListener("keydown", function (event) {
             let cursorPosition = element.selectionStart;
-            if (event.code === "ArrowDown") {
+            if (event.code === "ArrowDown" || event.code === "Numpad2") {
                 event.preventDefault();
                 if (index + 1 < stringInputs.length) {
                     stringInputs[index + 1].focus();
                     stringInputs[index + 1].setSelectionRange(cursorPosition, cursorPosition);
                 }
             }
-            else if(event.code === "ArrowUp"){
+            else if(event.code === "ArrowUp" || event.code === "Numpad8"){
                 event.preventDefault();
                 if(index - 1 >= 0){
                     stringInputs[index - 1].focus();
@@ -255,12 +257,15 @@ function setInputListeners() {
             }
             else if(event.code === "Equal" || event.shiftKey && event.code === "Equal" || event.code === "NumpadAdd"){
                 event.preventDefault();
-                if(tab2piano(element.value, 1, index + 1) != null){
+                if(element.value == ""){
+                    element.value = "C";
+                }
+                else if(tab2piano(element.value, 1, index + 1) !== null){
                     element.value = tab2piano(element.value, 1, index + 1);
                     visualizePiano();
                 }
             }
-            else if(event.code === "ArrowRight" && cursorPosition == stringInputs[index].value.length){
+            else if((event.code === "ArrowRight" || event.code === "Numpad6") && cursorPosition == stringInputs[index].value.length){
                 setTimeout(() => {
                     fretInputs[index].focus();
                     fretInputs[index].setSelectionRange(0, 0);
@@ -270,14 +275,14 @@ function setInputListeners() {
         
         fretInputs[index].addEventListener("keydown", function (event) {
             let cursorPosition = fretInputs[index].selectionStart;
-            if (event.code === "ArrowDown") {
+            if (event.code === "ArrowDown" || event.code === "Numpad2") {
                 event.preventDefault();
                 if (index + 1 < fretInputs.length) {
                     fretInputs[index + 1].focus();
                     fretInputs[index + 1].setSelectionRange(cursorPosition, cursorPosition);
                 }
             }
-            else if(event.code === "ArrowUp"){
+            else if(event.code === "ArrowUp" || event.code === "Numpad8"){
                 event.preventDefault();
                 if(index - 1 >= 0){
                     fretInputs[index - 1].focus();
@@ -291,10 +296,15 @@ function setInputListeners() {
             }
             else if(event.code === "Equal" || event.shiftKey && event.code === "Equal" || event.code === "NumpadAdd"){
                 event.preventDefault();
-                fretInputs[index].value = Number(fretInputs[index].value) + 1;
+                if(fretInputs[index].value == ""){
+                    fretInputs[index].value = "0";
+                }
+                else{
+                    fretInputs[index].value = Number(fretInputs[index].value) + 1;
+                }
                 visualizePiano();
             }
-            else if(event.code === "ArrowLeft" && cursorPosition == 0){
+            else if((event.code === "ArrowLeft" || event.code === "Numpad4") && cursorPosition == 0){
                 setTimeout(() => {
                     stringInputs[index].focus();
                     stringInputs[index].setSelectionRange(stringInputs[index].value.length, stringInputs[index].value.length);

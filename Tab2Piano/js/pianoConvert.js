@@ -1,7 +1,11 @@
 // Arrays
-let keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-let currentKeys = [];
-let currentKeysFlat = [];
+let keysSharp = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+// The app works mainly with sharp keys, but it also has the option to use flat keys.
+let keysFLat = ["C", "DB", "D", "EB", "E", "F", "GB", "G", "AB", "A", "BB", "B"];
+let currentKeysS = [];
+let currentKeysFlatS = [];
+let currentKeysB = [];
+let currentKeysFLatB = [];
 
 // Objects
 let tunings = {
@@ -24,18 +28,21 @@ let middleOctaveIndex = 3;
 let currentOctave = 0;
 while(currentOctave < octaves + 1){
     if(middleOctaveIndex == currentOctave){
-        currentKeys.push(keys);
+        currentKeysS.push(keysSharp);
+        currentKeysB.push(keysFLat);
     }
     else{
-        currentKeys.push(keys.map(key => (currentOctave - middleOctaveIndex) + key));
+        currentKeysS.push(keysSharp.map(key => (currentOctave - middleOctaveIndex) + key));
+        currentKeysB.push(keysFLat.map(key => (currentOctave - middleOctaveIndex) + key));
     }
     currentOctave++;
 }
-currentKeysFlat = currentKeys.flat();
+currentKeysFlatS = currentKeysS.flat();
+currentKeysFLatB = currentKeysB.flat();
 
 // Returns the keys of the octave at index (-3 to 3)
 function getKeys(octaveIndex){
-    return currentKeys[octaveIndex + middleOctaveIndex];
+    return currentKeysS[octaveIndex + middleOctaveIndex];
 }
 
 // Returns the key of the octave at their index and the index key (-3 to 3, 1 to 7)
@@ -48,18 +55,35 @@ function getKey(octaveIndex, keyIndex){
 function tab2piano(startingKey, moveKeys, index){
     let date = new Date();
     date = date.toString().slice(0, date.toString().indexOf("GMT") - 1).toLowerCase();
-    let startingKeyIndex = currentKeysFlat.indexOf(startingKey.toUpperCase());
+    let startingKeyIndex;
+
+    startingKey = startingKey.toUpperCase();
+
+    // Replace flat and sharp symbols with their respective characters (just in case)
+    if(startingKey.includes("♭") || startingKey.includes("♯")){
+        startingKey = startingKey.replace("♭", "b").replace("♯", "#").toUpperCase();
+    }
+
+    // Check if the starting key is a flat note (e.g., "C♭", "D♭", etc.)
+    if(keysFLat.indexOf(startingKey) !== -1 && startingKey[1] == "B" && startingKey.length > 1){
+        startingKeyIndex = currentKeysFLatB.indexOf(startingKey);
+    }
+
+    else{
+        startingKeyIndex = currentKeysFlatS.indexOf(startingKey);
+    }
+
     if(startingKeyIndex == -1){
         console.error(`Error:\n Invalid key value or non-existent key on input ${index} with value ${startingKey}\n On ${date}`);
         return null;
     }
     let endKeyIndex = startingKeyIndex + Number(moveKeys);
 
-    let result = currentKeysFlat[endKeyIndex];
+    let result = currentKeysFlatS[endKeyIndex];
     if(result == undefined){
         console.error(`Error:\n Invalid fret value or non-existent key on input ${index} with value ${moveKeys}\n On ${date}`);
         return null;
     }
 
-    return currentKeysFlat[endKeyIndex];
+    return currentKeysFlatS[endKeyIndex];
 }

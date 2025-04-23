@@ -51,29 +51,29 @@ function getKey(octaveIndex, keyIndex){
     return getKeys(octaveIndex)[keyIndex];
 }
 
+// Function that returns the index of the key in the currentKeys array
+function findKeyIndex(key){
+    if(key.includes("♭") || key.includes("♯")){
+        key = key.replace("♭", "b").replace("♯", "#").toUpperCase();
+    }
+    let index = currentKeysFlatS.indexOf(key.toUpperCase());
+    if(index === -1){
+        index = currentKeysFLatB.indexOf(key.toUpperCase());
+        if(index === -1){
+            return null;
+        }
+    }
+
+    return index;
+}
+
 // Gets the starting key(of the string) and the amount of keys to move(fret) and returns the key that it moved to
-function tab2piano(startingKey, moveKeys, index){
+function tab2piano(startingKey, moveKeys, index = -1){
     let date = new Date();
     date = date.toString().slice(0, date.toString().indexOf("GMT") - 1).toLowerCase();
-    let startingKeyIndex;
+    let startingKeyIndex = findKeyIndex(startingKey);
 
-    startingKey = startingKey.toUpperCase();
-
-    // Replace flat and sharp symbols with their respective characters (just in case)
-    if(startingKey.includes("♭") || startingKey.includes("♯")){
-        startingKey = startingKey.replace("♭", "b").replace("♯", "#").toUpperCase();
-    }
-
-    // Check if the starting key is a flat note (e.g., "C♭", "D♭", etc.)
-    if(keysFLat.indexOf(startingKey) !== -1 && startingKey[1] == "B" && startingKey.length > 1){
-        startingKeyIndex = currentKeysFLatB.indexOf(startingKey);
-    }
-
-    else{
-        startingKeyIndex = currentKeysFlatS.indexOf(startingKey);
-    }
-
-    if(startingKeyIndex == -1){
+    if(startingKeyIndex == null){
         console.error(`Error:\n Invalid key value or non-existent key on input ${index} with value ${startingKey}\n On ${date}`);
         return null;
     }
@@ -86,4 +86,21 @@ function tab2piano(startingKey, moveKeys, index){
     }
 
     return currentKeysFlatS[endKeyIndex];
+}
+
+// Function that converts back to tab from piano keys 
+function piano2tab(key, stringKey, index = -1){
+    let date = new Date();
+    date = date.toString().slice(0, date.toString().indexOf("GMT") - 1).toLowerCase();
+    let correspondingKey = findKeyIndex(key);
+    let correspondingStringKey = findKeyIndex(stringKey);
+
+    if(correspondingStringKey == null){
+        console.error(`Error:\n Invalid key value or non-existent key on input ${index} with value ${stringKey}\n On ${date}`);
+        return null;
+    }
+
+    let distance = correspondingStringKey - correspondingKey;
+
+    return distance;
 }

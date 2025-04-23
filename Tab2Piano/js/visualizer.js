@@ -312,6 +312,24 @@ function setInputListeners() {
             }
         });
     });
+
+    document.querySelectorAll(".key").forEach((element, index) => {
+        element.addEventListener("click", function () {
+            let key = element.id;
+            document.querySelectorAll(".stringInput").forEach((element2, index2) => {
+                if(element2.style.color !== "var(--error-color)"){
+                    let result = piano2tab(element2.value, key, index2 + 1);
+                    if(result != null){
+                        fretInputs[index2].value = result;
+                    }
+                    else{
+                        fretInputs[index2].value = "";
+                    }
+                    visualizePiano();
+                }
+            });
+        });
+    });
     }, 10);
 }
 

@@ -19,7 +19,6 @@
     align-items: center;
     background-color: #ffffff;
     display: flex;
-    height: 10vw;
     justify-content: center;
     margin: 0 0 2% 0;
     text-align: center;
@@ -71,7 +70,13 @@
 }
 
 .key {
+    cursor: pointer;
+    filter: contrast(0.8);
     transition: 0.5s;
+}
+
+.key:hover {
+    filter: contrast(1);
 }
 
 .mainWrap {
@@ -168,6 +173,24 @@
     margin: 0 0 0 -5%;
 }
 
+.tuneDown {
+    left: -41%;
+    rotate: 90deg;
+    top: -6%;
+}
+
+.tuneUp {
+    bottom: -1.5%;
+    left: -40.5%;
+    rotate: 270deg;
+}
+
+.tuneUp, .tuneDown {
+    cursor: pointer;
+    position: relative;
+    width: 1.25%;
+}
+
 .whiteKey {
     align-items: flex-end;
     background: white;
@@ -217,23 +240,6 @@ input[type="text"] {
     padding: 0;
     text-align: center;
     transition: 0.5s;
-}
-
-.tuneUp, .tuneDown {
-    width: 1.25%;
-    cursor: pointer;
-    position: relative;
-    left: -40.8%;
-}
-
-.tuneDown {
-    rotate: 90deg;
-    top: -6%;
-}
-
-.tuneUp {
-    rotate: 270deg;
-    bottom: -1.5%;
 }
 
 @media (prefers-color-scheme: dark) {

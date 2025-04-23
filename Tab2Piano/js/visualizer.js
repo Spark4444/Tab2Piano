@@ -4,6 +4,7 @@ let stringsIndex = document.querySelector(".stringsIndex");
 let strings = document.querySelector(".strings");
 let frets = document.querySelector(".frets");
 let piano = document.querySelector(".piano");
+let selectSelected = false;
 let stringIndexes;
 let stringInputs;
 let fretInputs;
@@ -91,11 +92,22 @@ function adjustTuning(upORDown) {
 changeInputs("Standard");
 
 // If the user changes the value tuning input it will change the inputs with selected tuning
-selectTuning.addEventListener("input", function () {
-    changeInputs(selectTuning.value);
-    setTimeout(() => {
-        visualizePiano();
-    }, 10);
+// This system ensures that select will change the value of the inputs even if the user selects the same value again
+selectTuning.addEventListener("click", function () {
+    if (!selectSelected){
+        selectSelected = true;
+    }
+    else{
+        selectSelected = false;
+        changeInputs(selectTuning.value);
+        setTimeout(() => {
+            visualizePiano();
+        }, 10);
+    }
+});
+
+selectTuning.addEventListener("blur", function () {
+    selectSelected = false;
 });
 
 // Function to generate the html of the piano
@@ -219,7 +231,6 @@ function setInputListeners() {
 
         // Add keydown event listener for arrow keys to change to the next/previous input if it exists
         element.addEventListener("keydown", function (event) {
-            console.log(event.code);
             let cursorPosition = element.selectionStart;
             if (event.code === "ArrowDown") {
                 event.preventDefault();

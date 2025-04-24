@@ -12,6 +12,9 @@ let fretInputs;
 // Boleans
 let selectSelected = false;
 
+// Timers
+let scrollTimeout;
+
 // Function to save current values to local storage
 function saveValuesToLocalStorage() {
     let stringValues = [];
@@ -123,8 +126,11 @@ selectTuning.addEventListener("change", function () {
 
 window.addEventListener("scroll", function () {
     if (selectSelected) {
-        selectSelected = false;
-        arrowSelect.style.rotate = "";
+        clearTimeout(scrollTimeout);
+        selectTuning.blur();
+        scrollTimeout = setTimeout(() => {
+            selectTuning.blur();
+        }, 500);
     }
 });
 

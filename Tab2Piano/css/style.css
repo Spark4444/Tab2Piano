@@ -2,6 +2,13 @@
     box-sizing: border-box;
 }
 
+.arrowSelect {
+    position: relative;
+    transform-origin: center center;
+    transition: 0.5s;
+    z-index: 2;
+}
+
 .blackKey {
     align-items: flex-end;
     background: black;
@@ -124,7 +131,16 @@
     width: 17%;
 }
 
+.selectArrow {
+    left: 89%;
+    pointer-events: none;
+    position: absolute;
+    top: -153%;
+    width: 7%;
+}
+
 .selectTuning {
+    appearance: none;
     border-radius: 0.7vw;
     border: 0.1vw solid black;
     cursor: pointer;
@@ -241,21 +257,6 @@ input[type="text"] {
     transition: 0.5s;
 }
 
-.selectArrow {
-    width: 9%;
-    position: absolute;
-    pointer-events: none;
-    top: -157%;
-    left: 88%;
-}
-
-.arrowSelect {
-    position: relative;
-    z-index: 2;
-    transform-origin: center center;
-    transition: 0.5s;
-}
-
 @media (prefers-color-scheme: dark) {
     .blackKey {
         background: white;
@@ -279,7 +280,6 @@ input[type="text"] {
     }
     
     .selectTuning {
-        appearance: none;
         background: black;
         border: 0.1vw solid white;
         color: white;

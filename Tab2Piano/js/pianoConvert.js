@@ -9,6 +9,7 @@ let currentKeysFLatB = [];
 
 // Objects
 let tunings = {
+    "Custom": "",
     "Standard": ["-2E", "-2A", "-1D", "-1G", "-1B", "E"],
     "Half step down": ["-2D#", "-2G#", "-1C#", "-1F#", "-1A#", "D#"],
     "drop D": ["-2D", "-2A", "-1D", "-1G", "-1B", "E"],

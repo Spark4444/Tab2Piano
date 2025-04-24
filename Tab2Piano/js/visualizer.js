@@ -4,6 +4,7 @@ let stringsIndex = document.querySelector(".stringsIndex");
 let strings = document.querySelector(".strings");
 let frets = document.querySelector(".frets");
 let piano = document.querySelector(".piano");
+let arrowSelect = document.querySelector(".arrowSelect");
 let stringIndexes;
 let stringInputs;
 let fretInputs;
@@ -71,13 +72,16 @@ generateInputs(6);
 
 // Function to set tuning for an input from a tuning
 function changeInputs(tuning){
-    resetPiano();
-    let newTunings = tunings[tuning].slice().reverse();
-    document.querySelectorAll(".stringInput").forEach((element, index) => {
-        element.value = newTunings[index];
-    });
+    if(typeof tunings[tuning] !== "string"){
+        resetPiano();
+        let newTunings = tunings[tuning].slice().reverse();
+        document.querySelectorAll(".stringInput").forEach((element, index) => {
+            element.value = newTunings[index];
+        });
+    }
 }
 
+// Function that will increase or descrease the tuning of by one semitone
 function adjustTuning(upORDown) {
     document.querySelectorAll(".stringInput").forEach((element, index) => {
         if(upORDown){
@@ -87,6 +91,7 @@ function adjustTuning(upORDown) {
             element.value = tab2piano(element.value, -1, index + 1);
         }
     });
+    selectTuning.value = "Custom";   
     visualizePiano();
 }
 
@@ -98,18 +103,29 @@ changeInputs("Standard");
 selectTuning.addEventListener("click", function () {
     if (!selectSelected){
         selectSelected = true;
+        arrowSelect.style.rotate = "90deg";
     }
     else{
         selectSelected = false;
-        changeInputs(selectTuning.value);
-        setTimeout(() => {
-            visualizePiano();
-        }, 10);
+        arrowSelect.style.rotate = "";
     }
 });
 
 selectTuning.addEventListener("blur", function () {
     selectSelected = false;
+    arrowSelect.style.rotate = "";
+});
+
+selectTuning.addEventListener("change", function () {
+    changeInputs(selectTuning.value);
+    visualizePiano();
+});
+
+window.addEventListener("scroll", function () {
+    if (selectSelected) {
+        selectSelected = false;
+        arrowSelect.style.rotate = "";
+    }
 });
 
 // Function to generate the html of the piano
@@ -228,7 +244,10 @@ function setInputListeners() {
     setTimeout(() => {
     updateSelectors();
     stringInputs.forEach((element, index) => {
-        element.addEventListener("input", visualizePiano);
+        element.addEventListener("input", function (){
+            visualizePiano();
+            selectTuning.value = "Custom";
+        });
         fretInputs[index].addEventListener("input", visualizePiano);
 
         // Add keydown event listener for arrow keys to change to the next/previous input if it exists
@@ -252,6 +271,7 @@ function setInputListeners() {
                 event.preventDefault();
                 if(tab2piano(element.value, -1, index + 1) != null){
                     element.value = tab2piano(element.value, -1, index + 1);
+                    selectTuning.value = "Custom";
                     visualizePiano();
                 }
             }
@@ -259,9 +279,11 @@ function setInputListeners() {
                 event.preventDefault();
                 if(element.value == ""){
                     element.value = "C";
+                    selectTuning.value = "Custom";
                 }
                 else if(tab2piano(element.value, 1, index + 1) !== null){
                     element.value = tab2piano(element.value, 1, index + 1);
+                    selectTuning.value = "Custom";   
                     visualizePiano();
                 }
             }

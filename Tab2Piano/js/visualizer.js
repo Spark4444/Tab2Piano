@@ -161,6 +161,12 @@ function generatePiano(keysArray) {
         }
     });
     piano.innerHTML = newPianoHtml;
+
+    // Dispatch the event that piano rendered on the DOM
+    let event = new CustomEvent("pianoRendered", {
+        detail: { keysArray: keysArray }
+    });
+    document.dispatchEvent(event);
 }
 
 // Initial call
@@ -259,6 +265,7 @@ function setInputListeners() {
         // Add keydown event listener for arrow keys to change to the next/previous input if it exists
         element.addEventListener("keydown", function (event) {
             let cursorPosition = element.selectionStart;
+            let stringValueBefore = element.value;
             if (event.code === "ArrowDown" || event.code === "Numpad2") {
                 event.preventDefault();
                 if (index + 1 < stringInputs.length) {
@@ -299,10 +306,26 @@ function setInputListeners() {
                     fretInputs[index].setSelectionRange(0, 0);
                 }, 10);
             }
+
+            // Check if the value has changed and dispatch the input event
+            if (stringValueBefore !== element.value) {
+                new InputEvent("input", {
+                    data: element.value,
+                    inputType: "insertText",
+                    isComposing: false,
+                    bubbles: true,
+                    cancelable: true
+                });
+                element.dispatchEvent(new Event("input", {
+                    bubbles: true,
+                    cancelable: true
+                }));
+            }
         });
         
         fretInputs[index].addEventListener("keydown", function (event) {
             let cursorPosition = fretInputs[index].selectionStart;
+            let fretValueBefore = fretInputs[index].value;
             if (event.code === "ArrowDown" || event.code === "Numpad2") {
                 event.preventDefault();
                 if (index + 1 < fretInputs.length) {
@@ -337,6 +360,21 @@ function setInputListeners() {
                     stringInputs[index].focus();
                     stringInputs[index].setSelectionRange(stringInputs[index].value.length, stringInputs[index].value.length);
                 }, 10);
+            }
+
+            // Check if the value has changed and dispatch the input event
+            if (fretValueBefore !== fretInputs[index].value) {
+                new InputEvent("input", {
+                    data: fretInputs[index].value,
+                    inputType: "insertText",
+                    isComposing: false,
+                    bubbles: true,
+                    cancelable: true
+                });
+                fretInputs[index].dispatchEvent(new Event("input", {
+                    bubbles: true,
+                    cancelable: true
+                }));
             }
         });
     });
